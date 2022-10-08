@@ -3,9 +3,7 @@ CC=gcc
 
 OUTDIR=bin
 OUTNAME=$(OUTDIR)/syslog
-FILES=\
-	src/main.c\
-	src/defs.c
+FILES=$(wildcard src/*.c) $(wildcard src/components/*.c)
 OBJ=$(FILES:.c=.o)
 
 .PHONY: all clean install uninstall
@@ -19,7 +17,7 @@ compile: $(OBJ)
 	$(CC) -o $(OUTNAME) $^
 
 %.o: %.c
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(CFLAGS) -Iheaders/
 
 clean: $(OUTDIR)
 	rm -rf $(OUTDIR) $(OBJ)
