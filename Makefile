@@ -19,7 +19,7 @@ compile: $(OBJ)
 %.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS) -Iheaders/
 
-clean: $(OUTDIR)
+clean: $(OUTDIR) $(OBJ)
 	rm -rf $(OUTDIR) $(OBJ)
 
 install:
