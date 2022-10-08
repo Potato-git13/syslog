@@ -4,8 +4,8 @@ This part should be made in C
 
 - log the following stuff:
     - cpu usage(%)
-    - ram usage(gb)
-    - disk usage(gb)
+    - ram usage(%)
+    - disk usage(%)
     - battery(%)
     - uptime(h:m)
 
