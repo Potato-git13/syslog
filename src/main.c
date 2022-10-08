@@ -9,9 +9,10 @@ int main(){
 
     get_time(&entry);
     cpu_usage(&entry);
+    ram_usage(&entry);
 
-    printf("%s %s %d%%\n",
-            entry.date, entry.time, entry.cpuuse);
+    printf("%s %s %d%% %d%%\n",
+            entry.date, entry.time, entry.cpuuse, entry.ramuse);
 
     free(entry.date);
     free(entry.time);
