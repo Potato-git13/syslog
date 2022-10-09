@@ -5,8 +5,9 @@
 #include "components.h"
 
 void ram_usage(log_entry *entry){
-    uintmax_t total, free, buffers, cached, ret;
+    uintmax_t total, free, buffers, cached, ram_perc;
 
+    // Scan all of the variables
     if (pscanf("/proc/meminfo",
                 "MemTotal: %ju kB\n"
                 "MemFree: %ju kB\n"
@@ -17,11 +18,13 @@ void ram_usage(log_entry *entry){
         return;
     }
 
+    // If the total is 0 an error has occured
     if (total == 0) {
         return;
     }
 
-    ret = 100 * ((total - free) - (buffers + cached)) / total;
+    // Calculate the percentage
+    ram_perc = 100 * ((total - free) - (buffers + cached)) / total;
     
-    entry->ramuse = ret;
+    entry->ramuse = ram_perc;
 }
