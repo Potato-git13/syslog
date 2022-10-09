@@ -12,9 +12,10 @@ int main(){
     ram_usage(&entry);
     disk_usage(&entry, "/");
     battery_perc(&entry);
+    get_uptime(&entry);
 
-    printf("%s %s, cpuuse %d%%, ramuse %d%%, diskuse %d%% bat %d%%\n",
-            entry.date, entry.time, entry.cpuuse, entry.ramuse, entry.diskuse, entry.bat);
+    printf("%s %s, cpuuse %d%%, ramuse %d%%, diskuse %d%%, bat %d%%, uptime %s\n",
+            entry.date, entry.time, entry.cpuuse, entry.ramuse, entry.diskuse, entry.bat, entry.uptime);
 
     free(entry.date);
     free(entry.time);
