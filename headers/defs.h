@@ -8,6 +8,7 @@ typedef struct _log_entry {
     char *time;
     unsigned int cpuuse;
     unsigned int ramuse;
+    unsigned int diskuse;
     unsigned int bat;
     char *uptime;
 } log_entry;
