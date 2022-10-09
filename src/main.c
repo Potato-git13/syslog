@@ -19,4 +19,5 @@ int main(){
 
     free(entry.date);
     free(entry.time);
+    free(entry.uptime);
 }
