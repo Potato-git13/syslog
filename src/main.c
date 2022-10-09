@@ -11,7 +11,7 @@ int main(){
     cpu_usage(&entry);
     ram_usage(&entry);
 
-    printf("%s %s %d%% %d%%\n",
+    printf("%s %s, cpuuse %d%%, ramuse %d%%\n",
             entry.date, entry.time, entry.cpuuse, entry.ramuse);
 
     free(entry.date);
