@@ -17,7 +17,7 @@ int log_func(log_entry entry){
         return -1;
 
     homedir = pw->pw_dir;
-    asprintf(&log_file, "%s/syslog", homedir);
+    asprintf(&log_file, "%s/test", homedir);
 
     fp = fopen(log_file, "a");
     if (!fp){
@@ -35,18 +35,22 @@ int log_func(log_entry entry){
 int main(){
     log_entry entry;
 
-    get_time(&entry);
-    cpu_usage(&entry);
-    ram_usage(&entry);
-    disk_usage(&entry, "/");
-    battery_perc(&entry);
-    get_uptime(&entry);
+    if (get_time(&entry)        ||
+        cpu_usage(&entry)       ||
+        ram_usage(&entry)       ||
+        disk_usage(&entry, "/") ||
+        battery_perc(&entry)    ||
+        get_uptime(&entry) != 0){
+            fprintf(stderr, "err: Data fetching error\n");
+            return -1;
+    }
 
     if(log_func(entry) != 0){
-        fprintf(stderr, "Error");
+        fprintf(stderr, "err: Logging error\n");
     }
     
     free(entry.date);
     free(entry.time);
     free(entry.uptime);
+    return 0;
 }

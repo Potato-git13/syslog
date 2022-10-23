@@ -3,14 +3,14 @@
 
 #include "components.h"
 
-void get_uptime(log_entry *entry){
+int get_uptime(log_entry *entry){
 	uintmax_t h, min;
     char *full_time;
 	struct timespec uptime;
 
     // Get the time since boot
 	if(clock_gettime(CLOCK_BOOTTIME, &uptime) < 0){
-		return;
+		return -1;
 	}
 
     // Calculate the hours and minutes
@@ -21,4 +21,5 @@ void get_uptime(log_entry *entry){
     asprintf(&full_time, "%ju:%ju", h, min);
 
     entry->uptime = full_time;
+	return 0;
 }

@@ -4,7 +4,7 @@
 
 #include "components.h"
 
-void ram_usage(log_entry *entry){
+int ram_usage(log_entry *entry){
     uintmax_t total, free, buffers, cached, ram_perc;
 
     // Scan all of the variables
@@ -15,16 +15,17 @@ void ram_usage(log_entry *entry){
                 "Buffers: %ju kB\n"
                 "Cached: %ju kB\n",
                 &total, &free, &buffers, &buffers, &cached) != 5) {
-        return;
+        return -1;
     }
 
     // If the total is 0 an error has occured
     if (total == 0) {
-        return;
+        return -1;
     }
 
     // Calculate the percentage
     ram_perc = 100 * ((total - free) - (buffers + cached)) / total;
     
     entry->ramuse = ram_perc;
+    return 0;
 }

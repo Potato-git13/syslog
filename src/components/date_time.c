@@ -3,7 +3,7 @@
 
 #include "components.h"
 
-void get_time(log_entry *entry){
+int get_time(log_entry *entry){
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
 
@@ -16,4 +16,6 @@ void get_time(log_entry *entry){
     char *time_str;
     asprintf(&time_str, "%02d:%02d:%02d", tm.tm_hour, tm.tm_min, tm.tm_sec);
     entry->time = time_str;
+    
+    return 0;
 }

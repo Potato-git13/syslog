@@ -2,7 +2,7 @@
 
 #include "components.h"
 
-void cpu_usage(log_entry *entry){
+int cpu_usage(log_entry *entry){
     unsigned int all_sums[2], work_sums[2] = {0x0};
     long double vals[14] = {0x0};
     float all_over_time, work_over_time;
@@ -13,7 +13,7 @@ void cpu_usage(log_entry *entry){
         if (pscanf("/proc/stat", "%*s %Lf %Lf %Lf %Lf %Lf %Lf %Lf",
 		           &vals[0+i*7], &vals[1+i*7], &vals[2+i*7], &vals[3+i*7], &vals[4+i*7], &vals[5+i*7], &vals[6+i*7])
                    != 7){
-            return;
+            return -1;
         };
 
         all_sums[i] = vals[0+i*7] + vals[1+i*7] + vals[2+i*7] + vals[3+i*7] + vals[4+i*7] + vals[5+i*7] + vals[6+i*7];
@@ -31,4 +31,5 @@ void cpu_usage(log_entry *entry){
     cpuperc = work_over_time / all_over_time * 100;
 
     entry->cpuuse = cpuperc;
+    return 0;
 }

@@ -3,11 +3,11 @@
 
 #include "defs.h"
 
-void cpu_usage(log_entry *entry);
-void get_time(log_entry *entry);
-void ram_usage(log_entry *entry);
-void disk_usage(log_entry *entry, const char *path);
-void battery_perc(log_entry *entry);
-void get_uptime(log_entry *entry);
+int cpu_usage(log_entry *entry);
+int get_time(log_entry *entry);
+int ram_usage(log_entry *entry);
+int disk_usage(log_entry *entry, const char *path);
+int battery_perc(log_entry *entry);
+int get_uptime(log_entry *entry);
 
 #endif
