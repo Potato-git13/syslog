@@ -17,7 +17,7 @@ int log_func(log_entry entry){
         return -1;
 
     homedir = pw->pw_dir;
-    asprintf(&log_file, "%s/test", homedir);
+    asprintf(&log_file, "%s/syslog", homedir);
 
     fp = fopen(log_file, "a");
     if (!fp){
