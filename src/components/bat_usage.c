@@ -10,5 +10,5 @@ int battery_perc(log_entry *entry){
     }
 
     entry->bat = bat_perc;
-    return -1;
+    return 0;
 }
