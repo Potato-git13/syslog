@@ -5,9 +5,22 @@
 #include "defs.h"
 #include "cmd_args.h"
 
+const char help[] = 
+    "Usage: syslog [-h] [-c] [-t] [-f] <filepath>\n"
+    "Options:\n"
+    "  -h\tshow this message and exit\n"
+    "  -c\tlog to console\n"
+    "  -t\tdo not log, only test that everything works\n"
+    "  -f\tlog to specified file\n";
+
+// -c - log to stdout
 flag c_flag;
+// -f - log to specified file
 flag f_flag;
+// -t - test so that everything works
 flag t_flag;
+// -h - help message
+flag h_flag;
 
 int log_func(log_entry entry, char *path){
 
@@ -26,7 +39,7 @@ int log_func(log_entry entry, char *path){
 }
 
 int cmd_arg_handler(int argc, char *argv[], log_entry entry){
-    c_flag.used = f_flag.used = t_flag.used = false;
+    c_flag.used = f_flag.used = t_flag.used = h_flag.used = false;
 
     for (int i = 0; i < argc; i++){
         // Check what flags were used
@@ -37,6 +50,8 @@ int cmd_arg_handler(int argc, char *argv[], log_entry entry){
             f_flag.pos = i;
         } else if (!strcmp(argv[i], "-t")){
             t_flag.used = true;
+        } else if (!strcmp(argv[i], "-h")){
+            h_flag.used = true;
         }
     }
 
@@ -70,13 +85,13 @@ int cmd_arg_handler(int argc, char *argv[], log_entry entry){
 
     if ((argc == 2 && c_flag.used) || argc == 1){
         printf(
-            "%s %s\n"          \
-            "\n"               \
-            "cpu:\t%d%%\n"     \
-            "ram:\t%d%%\n"     \
-            "disk:\t%d%%\n"    \
-            "bat:\t%d%%\n"     \
-            "uptime:\t%s\n",   \
+            "%s %s\n"
+            "\n"
+            "cpu:\t%d%%\n"
+            "ram:\t%d%%\n"
+            "disk:\t%d%%\n"
+            "bat:\t%d%%\n"
+            "uptime:\t%s\n",
                 entry.date, entry.time, entry.cpuuse, entry.ramuse,
                 entry.diskuse, entry.bat, entry.uptime
         );
@@ -85,6 +100,11 @@ int cmd_arg_handler(int argc, char *argv[], log_entry entry){
     
     if (argc == 2 && t_flag.used){
         printf("syslog: data fetched successfuly\n");
+        return 0;
+    }
+
+    if (argc == 2 && h_flag.used){
+        printf("%s", help);
         return 0;
     }
     
