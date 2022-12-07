@@ -69,8 +69,17 @@ int cmd_arg_handler(int argc, char *argv[], log_entry entry){
     }
 
     if ((argc == 2 && c_flag.used) || argc == 1){
-        printf("%s %s\ncpuuse: %d\nramuse: %d\ndiskuse: %d\nbat: %d\nuptime: %s\n",
-            entry.date, entry.time, entry.cpuuse, entry.ramuse, entry.diskuse, entry.bat, entry.uptime);
+        printf(
+            "%s %s\n"          \
+            "\n"               \
+            "cpu:\t%d%%\n"     \
+            "ram:\t%d%%\n"     \
+            "disk:\t%d%%\n"    \
+            "bat:\t%d%%\n"     \
+            "uptime:\t%s\n",   \
+                entry.date, entry.time, entry.cpuuse, entry.ramuse,
+                entry.diskuse, entry.bat, entry.uptime
+        );
         return 0;
     }
     
