@@ -21,6 +21,7 @@ FLAG t_flag;
 // -h - help message
 FLAG h_flag;
 
+// check if the given flag was used
 int flag_check(FLAG *flag, char *flag_short, char *flag_long, char *match_text, bool do_used_toggle, bool do_pos_toggle, int arg_pos){
     if (!(!strcmp(match_text, flag_short) || !strcmp(match_text, flag_long)))
         return -1;
@@ -36,7 +37,7 @@ int flag_check(FLAG *flag, char *flag_short, char *flag_long, char *match_text, 
 int file_log(log_entry entry, char *path){
 
     FILE *fp;
-
+    // append to file
     fp = fopen(path, "a");
     if (!fp){
         fprintf(stderr, "syslog: could not open file: %s", path);
@@ -76,6 +77,7 @@ int cmd_arg_handler(int argc, char *argv[], log_entry entry){
         flag_check(&h_flag, "-h", "--help", argv[i], true, false, i);
     }
 
+    // syslog -c -f path
     if (argc == 4 && f_flag.used && c_flag.used){
         if (argc == f_flag.pos+1){
             printf("syslog: no path given\n");
@@ -89,6 +91,7 @@ int cmd_arg_handler(int argc, char *argv[], log_entry entry){
         return 0;
     }
 
+    // syslog -f path
     if (argc == 3 && f_flag.used){
         // no path is given but argc == 3
         // e.g. syslog foo -f
@@ -100,34 +103,37 @@ int cmd_arg_handler(int argc, char *argv[], log_entry entry){
         // filepath is after "-f" flag
         if (file_log(entry, argv[f_flag.pos+1]) != 0)
             return -1;
-        return 0;
-
-    } else if ((argc < 3 || argc > 3) && f_flag.used){
+        return 0; 
+    }else if ((argc < 3 || argc > 3) && f_flag.used){ 
+        // syslog -f
         if (argc < 3){
             fprintf(stderr, "syslog: not enough arguments\n");
             return -1;
+        // syslog -f foo bar
         } else if (argc > 3){
             fprintf(stderr, "syslog: too many arguments\n");
             return -1;
         }
-    } else if (argc > 2 && !f_flag.used){
-        if (argc > 2){
-            fprintf(stderr, "syslog: too many arguments\n");
-            return -1;
-        }
+    } // syslog foo bar
+    else if (argc > 2 && !f_flag.used){
+        fprintf(stderr, "syslog: too many arguments\n");
+        return -1;
     }
 
+    // syslog -c
     if ((argc == 2 && c_flag.used) || argc == 1){
         if (console_log(entry) != 0)
             return -1;
         return 0;
     }
     
+    // syslog -t
     if (argc == 2 && t_flag.used){
         printf("syslog: data fetched successfuly\n");
         return 0;
     }
 
+    // syslog -h
     if (argc == 2 && h_flag.used){
         printf("%s", help);
         return 0;
