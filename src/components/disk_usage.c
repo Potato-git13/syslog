@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include <sys/statvfs.h>
 
 #include "components.h"
