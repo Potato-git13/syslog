@@ -21,9 +21,15 @@ FLAG t_flag;
 // -h - help message
 FLAG h_flag;
 
-int flag_check(FLAG *flag, char *flag_short, char *flag_long, char *match_text){
-    if (!strcmp(match_text, flag_short) || !strcmp(match_text, flag_long))
+int flag_check(FLAG *flag, char *flag_short, char *flag_long, char *match_text, bool do_used_toggle, bool do_pos_toggle, int arg_pos){
+    if (!(!strcmp(match_text, flag_short) || !strcmp(match_text, flag_long)))
+        return -1;
+    
+    if (do_used_toggle)
         flag->used = true;
+    if (do_pos_toggle)
+        flag->pos = arg_pos;
+    
     return 0;
 }
 
@@ -64,11 +70,10 @@ int cmd_arg_handler(int argc, char *argv[], log_entry entry){
     c_flag.used = f_flag.used = t_flag.used = h_flag.used = false;
 
     for (int i = 0; i < argc; i++){
-        flag_check(&c_flag, "-c", "--console", argv[i]);
-        // TODO: toggle .pos
-        flag_check(&f_flag, "-f", "--file", argv[i]);
-        flag_check(&t_flag, "-t", "--test", argv[i]);
-        flag_check(&h_flag, "-h", "--help", argv[i]);
+        flag_check(&c_flag, "-c", "--console", argv[i], true, false, i);
+        flag_check(&f_flag, "-f", "--file", argv[i], true, true, i);
+        flag_check(&t_flag, "-t", "--test", argv[i], true, false, i);
+        flag_check(&h_flag, "-h", "--help", argv[i], true, false, i);
     }
 
     if (argc == 4 && f_flag.used && c_flag.used){
