@@ -9,6 +9,7 @@ int main(int argc, char *argv[]){
     log_entry entry;
     int ret;
 
+    // gather all of the data
     if (get_time(&entry)        ||
         cpu_usage(&entry)       ||
         ram_usage(&entry)       ||
@@ -19,8 +20,10 @@ int main(int argc, char *argv[]){
             return -1;
     }
 
+    // handle all of the arguments and output the data
     ret = cmd_arg_handler(argc, argv, entry);
     
+    // free the allocated variables
     free(entry.date);
     free(entry.time);
     free(entry.uptime);
