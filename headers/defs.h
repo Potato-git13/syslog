@@ -2,6 +2,7 @@
 #define DEFS_HEADER
 
 #define SIZE 64
+#define VERSION "1.0"
 
 typedef struct _log_entry {
     char *date;

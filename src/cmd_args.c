@@ -20,9 +20,11 @@ FLAG f_flag;
 FLAG t_flag;
 // -h - help message
 FLAG h_flag;
+// -v - version
+FLAG v_flag;
 
 // check if the given flag was used
-int flag_check(FLAG *flag, char *flag_short, char *flag_long, char *match_text, bool do_used_toggle, bool do_pos_toggle, int arg_pos){
+int flag_check(FLAG *flag, char *flag_short, char *flag_long, char *match_text, bool do_used_toggle, bool do_pos_toggle, unsigned int arg_pos){
     if (!(!strcmp(match_text, flag_short) || !strcmp(match_text, flag_long)))
         return -1;
     
@@ -65,16 +67,20 @@ int console_log(log_entry entry){
     return 0;
 }
 
-
-
 int cmd_arg_handler(int argc, char *argv[], log_entry entry){
-    c_flag.used = f_flag.used = t_flag.used = h_flag.used = false;
+    c_flag.used = 
+    f_flag.used = 
+    t_flag.used = 
+    h_flag.used = 
+    v_flag.used = false;
 
+    // checking for the usage of flags
     for (int i = 0; i < argc; i++){
         flag_check(&c_flag, "-c", "--console", argv[i], true, false, i);
         flag_check(&f_flag, "-f", "--file", argv[i], true, true, i);
         flag_check(&t_flag, "-t", "--test", argv[i], true, false, i);
         flag_check(&h_flag, "-h", "--help", argv[i], true, false, i);
+        flag_check(&v_flag, "-v", "--version", argv[i], true, false, i);
     }
 
     // syslog -c -f path
@@ -136,6 +142,16 @@ int cmd_arg_handler(int argc, char *argv[], log_entry entry){
     // syslog -h
     if (argc == 2 && h_flag.used){
         printf("%s", help);
+        return 0;
+    }
+
+    // syslog -v
+    if (argc == 2 && v_flag.used){
+        #ifndef VERSION
+            fprintf(stderr, "syslog: version not defined\n");
+            return -1;
+        #endif
+        printf("syslog %s\n", VERSION);
         return 0;
     }
     
