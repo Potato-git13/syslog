@@ -8,9 +8,10 @@ const char help[] =
     "Usage: syslog [-h] [-c] [-t] [-f] <filepath>\n"
     "Options:\n"
     "  -h, --help\tshow this message and exit\n"
+    "  -v, --version\tshow the version message\n"
     "  -c, --console\tlog to console\n"
-    "  -t, --test\tdo not log, only test that everything works\n"
-    "  -f, --file\tlog to specified file\n";
+    "  -f, --file\tlog to specified file\n"
+    "  -t, --test\tdo not log, only test that everything works\n";
 
 // -c - log to stdout
 FLAG c_flag;
